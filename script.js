@@ -321,7 +321,7 @@ function handleYesAnswer() {
     const inviteContainer = document.querySelector(".invite-text");
 
     if (inviteContainer) {
-        inviteContainer.innerHTML = `<h2 style='font-family: "Great Vibes", cursive; font-size: 2rem; margin-top: 30px; line-height: 1.1;'>Děkuji ti moc ${guestName} a<br>budu se těšit!💚</h2>`;
+        inviteContainer.innerHTML = `<h2 style='font-family: "Great Vibes", cursive; font-size: 2rem; margin-top: 20px; line-height: 1.1;'>Děkuji ti moc ${guestName} a<br>budu se těšit!💚</h2>`;
         inviteContainer.style.opacity = "1";
     }
 

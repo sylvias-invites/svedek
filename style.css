@@ -79,7 +79,8 @@ h1 {
 .invite-text h2 {
     font-family: 'Great Vibes', cursive;
     font-size: 2.2rem;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    margin-top: 10px; /* <--- Přidejte tuto vlastnost */
     font-weight: 400;
 }
 
@@ -106,8 +107,8 @@ h1 {
 
 .heart-wrapper {
     width: 100%; /* Srdce zabere 85% šířky dostupné v .screen */
-    max-width: 300px; /* Aby na velkých mobilech nebylo obří */
-    aspect-ratio: 300 / 310;
+    max-width: 320px; /* Aby na velkých mobilech nebylo obří */
+    aspect-ratio: 320 / 310;
     position: relative;
     z-index: 2;
     margin: 10px auto !important; /* Menší mezery nad a pod */

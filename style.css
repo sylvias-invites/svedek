@@ -291,13 +291,13 @@ canvas {
     }
 
 .btn-yes {
-    background-color: #d27285;
+    background-color: #7e9f7c;
     border-color: rgba(76, 175, 80, 0.3); /* Jen lehounký nádech zelené na okraji */
 }
 
 .btn-no {
     background-color: white;
-    border-color: rgba(244, 67, 54, 0.2);
+    border-color: #7e9f7c;
     position: relative; /* Důležité pro pohyb */
     transition: transform 0.2s ease-out; /* Plynulý úskok */
     z-index: 11;

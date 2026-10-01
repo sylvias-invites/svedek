@@ -316,33 +316,24 @@ function startCountdown() {
 // Spustit odpočet
 startCountdown();
 
-// Spustit hned
-startCountdown();
-
-    
+// Funkce zavolaná po potvrdícím kliknutí (např. tlačítko ANO)
+function handleYesAnswer() {
     const inviteContainer = document.querySelector(".invite-text");
 
     if (inviteContainer) {
-        // 2. Kompletně přepíšeme celý vnitřek - tím zmizí H2, datum i countdown
-        inviteContainer.innerHTML = `<h2 style='font-family: \"Great Vibes\", cursive; font-size: 2rem;line-height: 1.1;'>Děkuji ti moc ${guestName} a budu se těšit!<br>💚</h2>`;
-
-        // 3. Vynutíme viditelnost (kdyby náhodou)
+        inviteContainer.innerHTML = `<h2 style='font-family: "Great Vibes", cursive; font-size: 2rem;line-height: 1.1;'>Děkuji ti moc ${guestName} a budu se těšit!<br>💚</h2>`;
         inviteContainer.style.opacity = "1";
     }
 
-    // 4. Schováme tlačítka
     const btnContainer = document.getElementById("button-container");
     if (btnContainer) {
-        // Zkusíme obojí - třídu i přímý styl pro jistotu
         btnContainer.classList.remove("show");
         btnContainer.style.display = "none";
     }
 
-    // ZOBRAZENÍ NOVÉHO INFO TLAČÍTKA
     const infoBtn = document.getElementById("info-button-container");
     if (infoBtn) {
         infoBtn.style.display = "flex";
-        // Malé zpoždění, aby se pěkně vymazilo (fade-in)
         setTimeout(() => {
             infoBtn.style.opacity = "1";
         }, 100);

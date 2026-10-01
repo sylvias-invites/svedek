@@ -106,7 +106,7 @@ h1 {
 
 .heart-wrapper {
     width: 100%; /* Srdce zabere 85% šířky dostupné v .screen */
-    max-width: 370px; /* Aby na velkých mobilech nebylo obří */
+    max-width: 390px; /* Aby na velkých mobilech nebylo obří */
     aspect-ratio: 1 / 1;
     position: relative;
     z-index: 2;
@@ -391,6 +391,6 @@ canvas {
     }
 
     .heart-wrapper {
-        max-width: 450px; /* Srdce na desktopu může být o něco větší */
+        max-width: 470px; /* Srdce na desktopu může být o něco větší */
     }
 }

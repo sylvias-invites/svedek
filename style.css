@@ -76,9 +76,17 @@ h1 {
     line-height: 1;
 }
 
+.invite-text {
+    position: relative;
+    top: -10px;
+    text-align: center;
+    z-index: 2; /* Úplně vespod */
+    width: 80%;
+}
+
 .invite-text h2 {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin-bottom: 8px;
     margin-top: 20px; /* <--- Přidejte tuto vlastnost */
     font-weight: 400;
@@ -93,7 +101,7 @@ h1 {
 /* SPECIFICKY DATUM */
 .invite-text .date {
     font-weight: 700; /* Tučné písmo pro datum */
-    font-size: 2.2rem; /* Větší písmo jen pro datum */
+    font-size: 2rem; /* Větší písmo jen pro datum */
     display: inline-block;
     margin-top: 1px;
     margin-bottom: 7px;
@@ -159,14 +167,6 @@ h1 {
     align-items: center;
     z-index: 2; /* Pod canvasem */
     pointer-events: none;
-}
-
-.invite-text {
-    position: relative;
-    top: -10px;
-    text-align: center;
-    z-index: 2; /* Úplně vespod */
-    width: 80%;
 }
 
 canvas {

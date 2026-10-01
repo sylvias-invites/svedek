@@ -163,7 +163,7 @@ h1 {
 
 .invite-text {
     position: relative;
-    top: -35px;
+    top: -10px;
     text-align: center;
     z-index: 2; /* Úplně vespod */
     width: 80%;

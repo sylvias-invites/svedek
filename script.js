@@ -179,7 +179,7 @@ function revealEverything() {
 
 function createConfetti() {
     const confContainer = document.getElementById("confetti-container");
-    const colors = ["#ffffff", "#fce4ec", "#f06292", "#ffffff", "#fce4ec"];
+    const colors = ["#ffffff", "##7e9f7c", "#b7d4b6", "#ffffff", "#dbf1da"];
     const shapes = ["circle", "square", "diamond"]; // Definujeme tvary
 
     for (let i = 0; i < 150; i++) {
@@ -367,6 +367,13 @@ if (noBtn) {
         e.preventDefault(); // Toto zastaví tu hlášku a kliknutí!
         moveNoButton();
     });
+}
+
+// Propojení tlačítka ANO s funkcí handleYesAnswer
+const yesBtn = document.getElementById("yesBtn"); // Ujistěte se, že ID odpovídá vaše HTML (např. yesBtn)
+
+if (yesBtn) {
+    yesBtn.addEventListener("click", handleYesAnswer);
 }
 
 canvas.addEventListener("mousedown", (e) => {

@@ -106,8 +106,8 @@ h1 {
 
 .heart-wrapper {
     width: 100%; /* Srdce zabere 85% šířky dostupné v .screen */
-    max-width: 280px; /* Aby na velkých mobilech nebylo obří */
-    aspect-ratio: 280 / 350;
+    max-width: 300px; /* Aby na velkých mobilech nebylo obří */
+    aspect-ratio: 300 / 310;
     position: relative;
     z-index: 2;
     margin: 10px auto !important; /* Menší mezery nad a pod */

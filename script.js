@@ -410,8 +410,8 @@ window.addEventListener("resize", initCanvas);
        speed: 1.2,
        walkMin: 3000,
        walkMax: 7000,
-       sitMin: 2000,
-       sitMax: 5000
+       sitMin: 800,
+       sitMax: 2500
     };
 
     let x = 20;
@@ -486,9 +486,34 @@ window.addEventListener("resize", initCanvas);
         const maxX = window.innerWidth - petWidth - 20;
         const maxY = window.innerHeight - petHeight - 20;
 
-        // Náhodný cíl po celé obrazovce
-        targetX = Math.floor(Math.random() * (maxX - 20)) + 20;
-        targetY = Math.floor(Math.random() * (maxY - 20)) + 20;
+                // Vygenerování náhodného cíle
+        let newTargetX = Math.floor(Math.random() * (maxX - 20)) + 20;
+        let newTargetY = Math.floor(Math.random() * (maxY - 20)) + 20;
+
+        // Kontrola vyhnutí se srdíčku (.heart-wrapper)
+        const heartEl = document.querySelector(".heart-wrapper");
+        if (heartEl) {
+            const hRect = heartEl.getBoundingClientRect();
+            
+            const margin = 20;
+            const hLeft = hRect.left - petWidth - margin;
+            const hRight = hRect.right + margin;
+            const hTop = hRect.top - petHeight - margin;
+            const hBottom = hRect.bottom + margin;
+
+            // Pokud cíl spadá do oblasti srdce, odsuň ho na stranu
+            if (newTargetX > hLeft && newTargetX < hRight && newTargetY > hTop && newTargetY < hBottom) {
+                if (newTargetX < (hLeft + hRight) / 2) {
+                    newTargetX = Math.max(20, hLeft);
+                } else {
+                    newTargetX = Math.min(maxX, hRight);
+                }
+            }
+        }
+
+        targetX = newTargetX;
+        targetY = newTargetY;
+
 
         direction = targetX < x ? -1 : 1;
 

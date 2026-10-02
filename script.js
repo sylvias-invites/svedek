@@ -409,9 +409,9 @@ window.addEventListener("resize", initCanvas);
     // -----------------------------
 
     const images = {
-        idle: "images/pet/idle.png",
-        sit: "images/pet/sit.png",
-        walk: "images/pet/walk.png"
+        idle: "idle.png",
+        sit: "sit.png",
+        walk: "walk.png"
     };
 
 

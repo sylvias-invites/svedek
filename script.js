@@ -411,7 +411,7 @@ window.addEventListener("resize", initCanvas);
        walkMin: 3000,
        walkMax: 7000,
        sitMin: 800,
-       sitMax: 2000
+       sitMax: 1800
     };
 
     let x = 20;
@@ -559,6 +559,7 @@ window.addEventListener("resize", initCanvas);
     }
 
     function stopAndSit() {
+        clearTimeout(timer);
         walking = false;
         setPetImage("sit");
 
@@ -586,7 +587,7 @@ window.addEventListener("resize", initCanvas);
 
             timer = setTimeout(() => {
                 startWalking();
-            }, 1500);
+            }, 600);
         }, 500);
     });
 

@@ -508,6 +508,7 @@ window.addEventListener("resize", initCanvas);
 
         setPetImage("walk");
 
+        requestAnimationFrame(movePet);
 
         const time =
             Math.random() *
@@ -619,9 +620,6 @@ window.addEventListener("resize", initCanvas);
 
     }, 1500);
 
-
-    // hlavní animační smyčka
-    requestAnimationFrame(movePet);
 
 })();
 

@@ -395,3 +395,68 @@ canvas {
         max-width: 470px; /* Srdce na desktopu může být o něco větší */
     }
 }
+
+
+/* 🐱 SVATEBNÍ KOČIČKA */
+
+#wedding-pet {
+    position: fixed;
+    left: 20px;
+    bottom: 15px;
+
+    width: 100px;
+    z-index: 9999;
+
+    pointer-events: auto;
+    cursor: pointer;
+
+    user-select: none;
+    touch-action: manipulation;
+
+    transition: transform 0.2s ease;
+}
+
+#wedding-pet img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    image-rendering: pixelated;
+
+    pointer-events: none;
+}
+
+/* malý efekt při kliknutí */
+
+#wedding-pet.pet-jump {
+    animation: petJump 0.5s ease;
+}
+
+@keyframes petJump {
+    0% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px) rotate(-5deg);
+    }
+
+    70% {
+        transform: translateY(0) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* mobil */
+
+@media (max-width: 600px) {
+    #wedding-pet {
+        width: 75px;
+        bottom: 10px;
+    }
+}
+
+

@@ -443,10 +443,43 @@ window.addEventListener("resize", initCanvas);
             lastFrameTime = timestamp;
         }
 
-        // Výpočet vzdálenosti k cíli
-        const dx = targetX - x;
-        const dy = targetY - y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+                // Posun směrem k cíli
+        x += (dx / distance) * settings.speed;
+        y += (dy / distance) * settings.speed;
+
+        // KONTROLA KOLIZE SE SRDÍČKEM BĚHEM CHŮZE
+        const heartEl = document.querySelector(".heart-wrapper");
+        if (heartEl) {
+            const hRect = heartEl.getBoundingClientRect();
+            const petWidth = pet.offsetWidth || 60;
+            const petHeight = pet.offsetHeight || 60;
+            const margin = 10; // Bezpečnostní odstup od srdíčka
+
+            const hLeft = hRect.left - petWidth - margin;
+            const hRight = hRect.right + margin;
+            const hTop = hRect.top - petHeight - margin;
+            const hBottom = hRect.bottom + margin;
+
+            // Pokud kočka vstoupí do oblasti srdíčka, vysuneme ji na nejbližší hranu
+            if (x > hLeft && x < hRight && y > hTop && y < hBottom) {
+                const distLeft = Math.abs(x - hLeft);
+                const distRight = Math.abs(x - hRight);
+                const distTop = Math.abs(y - hTop);
+                const distBottom = Math.abs(y - hBottom);
+
+                const minDist = Math.min(distLeft, distRight, distTop, distBottom);
+
+                if (minDist === distLeft) x = hLeft;
+                else if (minDist === distRight) x = hRight;
+                else if (minDist === distTop) y = hTop;
+                else y = hBottom;
+
+                // Při nárazu do srdíčka rovnou zastaví a sedne si
+                stopAndSit();
+                return;
+            }
+        }
+
 
         // Zastavení při dosažení cíle
         if (distance < 5) {

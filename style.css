@@ -407,7 +407,7 @@ canvas {
     width: 100px;
     z-index: 9999;
 
-    pointer-events: auto;
+    pointer-events: none;
     cursor: pointer;
 
     user-select: none;
@@ -423,7 +423,8 @@ canvas {
 
     image-rendering: pixelated;
 
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 /* malý efekt při kliknutí */

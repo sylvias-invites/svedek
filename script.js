@@ -179,7 +179,7 @@ function revealEverything() {
 
 function createConfetti() {
     const confContainer = document.getElementById("confetti-container");
-    const colors = ["#ffffff", "##7e9f7c", "#b7d4b6", "#ffffff", "#dbf1da"];
+    const colors = ["#ffffff", "#7e9f7c", "#b7d4b6", "#ffffff", "#dbf1da"];
     const shapes = ["circle", "square", "diamond"]; // Definujeme tvary
 
     for (let i = 0; i < 150; i++) {
@@ -420,26 +420,29 @@ window.addEventListener("resize", initCanvas);
     // -----------------------------
 
     const settings = {
-        speed: 0.7,
-
-        walkMin: 3000,
-        walkMax: 8000,
-
-        sitMin: 2000,
-        sitMax: 5000
+       speed: 1.2, // Mírně zvýšená rychlost pro diagonální pohyb
+       walkMin: 3000,
+       walkMax: 7000,
+       sitMin: 2000,
+       sitMax: 5000
     };
-
 
     // -----------------------------
     // Stav kočičky
     // -----------------------------
 
     let x = 20;
-    let direction = 1;
+    let y = window.innerHeight - 80; // Start vlevo dole
 
+    let targetX = x;
+    let targetY = y;
+
+    let direction = 1; // 1 = vpravo, -1 = vlevo
     let walking = false;
     let timer = null;
 
+    let lastFrameTime = 0;
+    let currentWalkStep = 0;
 
     // -----------------------------
     // Změna obrázku
@@ -457,6 +460,14 @@ window.addEventListener("resize", initCanvas);
     function movePet() {
 
         if (!walking) return;
+
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        // Každých 200 ms (0.2 sekundy) přepneme obrázek
+    if (timestamp - lastFrameTime > 200) {
+        currentWalkStep = currentWalkStep === 0 ? 1 : 0;
+         setPetImage(currentWalkStep === 0 ? "walk" : "idle");
+        lastFrameTime = timestamp;
+    }
 
         const petWidth = pet.offsetWidth;
 
@@ -498,30 +509,41 @@ window.addEventListener("resize", initCanvas);
 
     // -----------------------------
     // Začít chodit
-    // -----------------------------
-
     function startWalking() {
+    clearTimeout(timer);
 
-        clearTimeout(timer);
+    walking = true;
+    lastFrameTime = 0;
+    currentWalkStep = 0;
 
-        walking = true;
+    setPetImage("walk");
 
-        setPetImage("walk");
+    // Výpočet bezpečné oblasti na obrazovce
+    const petWidth = pet.offsetWidth || 60;
+    const petHeight = pet.offsetHeight || 60;
 
-        requestAnimationFrame(movePet);
+    const maxX = window.innerWidth - petWidth - 20;
+    const maxY = window.innerHeight - petHeight - 20;
 
-        const time =
-            Math.random() *
-            (settings.walkMax - settings.walkMin)
-            + settings.walkMin;
+    // Generování nového cíle v rámci okna (po stranách, kolem srdíčka, atd.)
+    targetX = Math.floor(Math.random() * (maxX - 20)) + 20;
+    targetY = Math.floor(Math.random() * (maxY - 20)) + 20;
 
-
-        timer = setTimeout(() => {
-
-            stopAndSit();
-
-        }, time);
+    // Určení směru otočení (doprava / doleva)
+    if (targetX < x) {
+        direction = -1;
+    } else {
+        direction = 1;
     }
+
+    requestAnimationFrame(movePet);
+
+    const time = Math.random() * (settings.walkMax - settings.walkMin) + settings.walkMin;
+
+    timer = setTimeout(() => {
+        stopAndSit();
+    }, time);
+}
 
 
     // -----------------------------

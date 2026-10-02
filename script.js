@@ -512,8 +512,10 @@ window.addEventListener("resize", initCanvas);
         }, time);
     }
 
-    // Reakce na kliknutí na kočku
-    pet.addEventListener("click", () => {
+        // Reakce na kliknutí přímo na kočku
+    pet.addEventListener("click", (e) => {
+        e.stopPropagation(); // Zamezí šíření kliknutí na okolní prvky
+
         clearTimeout(timer);
         walking = false;
 
@@ -532,6 +534,7 @@ window.addEventListener("resize", initCanvas);
             }, 600);
         }, 500);
     });
+
 
     // Kontrola hranic při změně velikosti okna
     window.addEventListener("resize", () => {

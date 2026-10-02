@@ -391,7 +391,7 @@ window.addEventListener("touchend", () => scratching = false);
 window.addEventListener("resize", initCanvas);
 
 // ======================================================
-// 🐱 SVATEBNÍ KOČIČKA (Samostatný kód)
+// 🐱 SVATEBNÍ KOČIČKA (Bez blokování srdíčka)
 // ======================================================
 
 (() => {
@@ -411,7 +411,7 @@ window.addEventListener("resize", initCanvas);
        walkMin: 3000,
        walkMax: 7000,
        sitMin: 800,
-       sitMax: 1800
+       sitMax: 2000
     };
 
     let x = 20;
@@ -432,76 +432,43 @@ window.addEventListener("resize", initCanvas);
     }
 
     function movePet(timestamp) {
-    if (!walking) return;
+        if (!walking) return;
 
-    // Animace kroku (případně přepínání obrázků)
-    if (!lastFrameTime) lastFrameTime = timestamp;
-    if (timestamp - lastFrameTime > 200) {
-        currentWalkStep = currentWalkStep === 0 ? 1 : 0;
-        setPetImage(currentWalkStep === 0 ? "walk" : "idle");
-        lastFrameTime = timestamp;
-    }
+        // Animace kroku
+        if (!lastFrameTime) lastFrameTime = timestamp;
+        if (timestamp - lastFrameTime > 200) {
+            currentWalkStep = currentWalkStep === 0 ? 1 : 0;
+            setPetImage(currentWalkStep === 0 ? "walk" : "idle");
+            lastFrameTime = timestamp;
+        }
 
-    // 1. Výpočet vzdálenosti k cíli (TOTO CHYBĚLO)
-    const dx = targetX - x;
-    const dy = targetY - y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
+        // Výpočet vzdálenosti k cíli
+        const dx = targetX - x;
+        const dy = targetY - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-    // Zastavení při dosažení cíle
-    if (distance < 5) {
-        stopAndSit();
-        return;
-    }
-
-    // 2. Posun kočky směrem k cíli
-    x += (dx / distance) * settings.speed;
-    y += (dy / distance) * settings.speed;
-
-    // 3. Kontrola kolize se srdíčkem během chůze
-    const heartEl = document.querySelector(".heart-wrapper");
-    if (heartEl) {
-        const hRect = heartEl.getBoundingClientRect();
-        const petWidth = pet.offsetWidth || 60;
-        const petHeight = pet.offsetHeight || 60;
-        const margin = 10;
-
-        const hLeft = hRect.left - petWidth - margin;
-        const hRight = hRect.right + margin;
-        const hTop = hRect.top - petHeight - margin;
-        const hBottom = hRect.bottom + margin;
-
-        if (x > hLeft && x < hRight && y > hTop && y < hBottom) {
-            const distLeft = Math.abs(x - hLeft);
-            const distRight = Math.abs(x - hRight);
-            const distTop = Math.abs(y - hTop);
-            const distBottom = Math.abs(y - hBottom);
-
-            const minDist = Math.min(distLeft, distRight, distTop, distBottom);
-
-            if (minDist === distLeft) x = hLeft;
-            else if (minDist === distRight) x = hRight;
-            else if (minDist === distTop) y = hTop;
-            else y = hBottom;
-
+        // Zastavení při dosažení cíle
+        if (distance < 5) {
             stopAndSit();
             return;
         }
+
+        // Posun kočky k cíli
+        x += (dx / distance) * settings.speed;
+        y += (dy / distance) * settings.speed;
+
+        pet.style.left = `${x}px`;
+        pet.style.top = `${y}px`;
+
+        // Otočení obrázku podle směru chůze
+        if (direction === -1) {
+            pet.style.transform = "scaleX(-1)";
+        } else {
+            pet.style.transform = "scaleX(1)";
+        }
+
+        requestAnimationFrame(movePet);
     }
-
-    // Vykreslení pozice na obrazovce
-    pet.style.left = `${x}px`;
-    pet.style.top = `${y}px`;
-
-    // Otočení kočky podle směru
-    if (direction === -1) {
-        pet.style.transform = "scaleX(-1)";
-    } else {
-        pet.style.transform = "scaleX(1)";
-    }
-
-    requestAnimationFrame(movePet);
-}
-
 
     function startWalking() {
         clearTimeout(timer);
@@ -518,34 +485,9 @@ window.addEventListener("resize", initCanvas);
         const maxX = window.innerWidth - petWidth - 20;
         const maxY = window.innerHeight - petHeight - 20;
 
-                // Vygenerování náhodného cíle
-        let newTargetX = Math.floor(Math.random() * (maxX - 20)) + 20;
-        let newTargetY = Math.floor(Math.random() * (maxY - 20)) + 20;
-
-        // Kontrola vyhnutí se srdíčku (.heart-wrapper)
-        const heartEl = document.querySelector(".heart-wrapper");
-        if (heartEl) {
-            const hRect = heartEl.getBoundingClientRect();
-            
-            const margin = 20;
-            const hLeft = hRect.left - petWidth - margin;
-            const hRight = hRect.right + margin;
-            const hTop = hRect.top - petHeight - margin;
-            const hBottom = hRect.bottom + margin;
-
-            // Pokud cíl spadá do oblasti srdce, odsuň ho na stranu
-            if (newTargetX > hLeft && newTargetX < hRight && newTargetY > hTop && newTargetY < hBottom) {
-                if (newTargetX < (hLeft + hRight) / 2) {
-                    newTargetX = Math.max(20, hLeft);
-                } else {
-                    newTargetX = Math.min(maxX, hRight);
-                }
-            }
-        }
-
-        targetX = newTargetX;
-        targetY = newTargetY;
-
+        // Generování libovolného cíle na celé obrazovce
+        targetX = Math.floor(Math.random() * (maxX - 20)) + 20;
+        targetY = Math.floor(Math.random() * (maxY - 20)) + 20;
 
         direction = targetX < x ? -1 : 1;
 
@@ -570,7 +512,7 @@ window.addEventListener("resize", initCanvas);
         }, time);
     }
 
-    // Reakce na kliknutí
+    // Reakce na kliknutí na kočku
     pet.addEventListener("click", () => {
         clearTimeout(timer);
         walking = false;
@@ -609,5 +551,4 @@ window.addEventListener("resize", initCanvas);
         startWalking();
     }, 1500);
 })();
-
 

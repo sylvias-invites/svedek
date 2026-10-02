@@ -389,3 +389,239 @@ window.addEventListener("touchmove", scratch, { passive: false });
 window.addEventListener("mouseup", () => scratching = false);
 window.addEventListener("touchend", () => scratching = false);
 window.addEventListener("resize", initCanvas);
+
+
+// ======================================================
+// 🐱 SVATEBNÍ KOČIČKA
+// ======================================================
+
+(() => {
+
+    const pet = document.getElementById("wedding-pet");
+    const petImg = document.getElementById("wedding-pet-img");
+
+    // Kdyby kočička nebyla v HTML, nic dalšího neděláme
+    if (!pet || !petImg) return;
+
+
+    // -----------------------------
+    // Obrázky kočičky
+    // -----------------------------
+
+    const images = {
+        idle: "images/pet/idle.png",
+        sit: "images/pet/sit.png",
+        walk: "images/pet/walk.png"
+    };
+
+
+    // -----------------------------
+    // Nastavení
+    // -----------------------------
+
+    const settings = {
+        speed: 0.7,
+
+        walkMin: 3000,
+        walkMax: 8000,
+
+        sitMin: 2000,
+        sitMax: 5000
+    };
+
+
+    // -----------------------------
+    // Stav kočičky
+    // -----------------------------
+
+    let x = 20;
+    let direction = 1;
+
+    let walking = false;
+    let timer = null;
+
+
+    // -----------------------------
+    // Změna obrázku
+    // -----------------------------
+
+    function setPetImage(type) {
+        petImg.src = images[type];
+    }
+
+
+    // -----------------------------
+    // Pohyb
+    // -----------------------------
+
+    function movePet() {
+
+        if (!walking) return;
+
+        const petWidth = pet.offsetWidth;
+
+        const maxX =
+            window.innerWidth - petWidth - 10;
+
+
+        x += settings.speed * direction;
+
+
+        // Pravý okraj
+        if (x >= maxX) {
+            x = maxX;
+            direction = -1;
+        }
+
+
+        // Levý okraj
+        if (x <= 10) {
+            x = 10;
+            direction = 1;
+        }
+
+
+        pet.style.left = `${x}px`;
+
+
+        // Otočení kočičky
+        if (direction === -1) {
+            pet.style.transform = "scaleX(-1)";
+        } else {
+            pet.style.transform = "scaleX(1)";
+        }
+
+
+        requestAnimationFrame(movePet);
+    }
+
+
+    // -----------------------------
+    // Začít chodit
+    // -----------------------------
+
+    function startWalking() {
+
+        clearTimeout(timer);
+
+        walking = true;
+
+        setPetImage("walk");
+
+
+        const time =
+            Math.random() *
+            (settings.walkMax - settings.walkMin)
+            + settings.walkMin;
+
+
+        timer = setTimeout(() => {
+
+            stopAndSit();
+
+        }, time);
+    }
+
+
+    // -----------------------------
+    // Sednout
+    // -----------------------------
+
+    function stopAndSit() {
+
+        walking = false;
+
+        setPetImage("sit");
+
+
+        const time =
+            Math.random() *
+            (settings.sitMax - settings.sitMin)
+            + settings.sitMin;
+
+
+        timer = setTimeout(() => {
+
+            startWalking();
+
+        }, time);
+    }
+
+
+    // -----------------------------
+    // Kliknutí / tapnutí
+    // -----------------------------
+
+    pet.addEventListener("click", () => {
+
+        clearTimeout(timer);
+
+        walking = false;
+
+        setPetImage("idle");
+
+
+        // restart animace
+        pet.classList.remove("pet-jump");
+
+        void pet.offsetWidth;
+
+        pet.classList.add("pet-jump");
+
+
+        setTimeout(() => {
+
+            pet.classList.remove("pet-jump");
+
+            setPetImage("sit");
+
+
+            timer = setTimeout(() => {
+
+                startWalking();
+
+            }, 1500);
+
+        }, 500);
+    });
+
+
+    // -----------------------------
+    // Resize okna
+    // -----------------------------
+
+    window.addEventListener("resize", () => {
+
+        const maxX =
+            window.innerWidth -
+            pet.offsetWidth -
+            10;
+
+
+        if (x > maxX) {
+            x = maxX;
+        }
+
+    });
+
+
+    // -----------------------------
+    // Start
+    // -----------------------------
+
+    setPetImage("idle");
+
+
+    // chvíli počkáme po načtení
+    setTimeout(() => {
+
+        startWalking();
+
+    }, 1500);
+
+
+    // hlavní animační smyčka
+    requestAnimationFrame(movePet);
+
+})();
+
